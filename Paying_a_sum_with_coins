@@ -1,0 +1,12 @@
+
+def recursive_mince(suma = 0, poradie = "", posledny_index = 0):
+    if(suma == sum):
+        print(poradie)
+
+    elif(suma < sum):
+        for i in range(posledny_index, len(list_vstup)):
+            recursive_mince(suma + list_vstup[i], poradie + str(list_vstup[i]) + " ", i)
+
+rang = int(input())
+list_vstup, sum = list(map(int,input().split(" "))), int(input())
+recursive_mince()
