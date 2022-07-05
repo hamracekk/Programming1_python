@@ -1,0 +1,97 @@
+import math as m
+
+def zrataj_dlzku_us(bod1, bod2):
+    dlzka = m.sqrt((bod1[0] - bod2[0])*(bod1[0] - bod2[0]) + (bod1[1] - bod2[1])*(bod1[1] - bod2[1]))
+    return dlzka
+
+
+def vrat_smernicu(bod1, bod2):
+    A = bod1[1] - bod2[1]
+    B = bod1[0] - bod2[0]
+    if(B == 0):
+        Smernica = None
+    else:
+        Smernica = A/B
+    return Smernica
+
+def vrat_posun(bod1, bod2):
+    menovatel = bod1[0] - bod2[0]
+    citatel = bod2[1]*bod1[0] - bod1[1]*bod2[0]
+    if(menovatel != 0):
+        Posun = citatel/menovatel
+    else:
+        Posun = None
+    return Posun
+
+l = list(map(int,input().split(" ")))
+X1_Y1, X2_Y2, X3_Y3, X4_Y4 = (l[0],l[1]), (l[2],l[3]), (l[4],l[5]), (l[6],l[7])
+
+Smernica_1, Smernica_2 = vrat_smernicu(X1_Y1, X2_Y2), vrat_smernicu(X3_Y3, X4_Y4)
+C_1, C_2 = vrat_posun(X1_Y1, X2_Y2), vrat_posun(X3_Y3, X4_Y4)
+
+if(Smernica_1 == Smernica_2):
+    if(Smernica_1 == None and X1_Y1[0] != X3_Y3[0]):
+        print("NE")
+    elif((Smernica_1 == None and X1_Y1[0] == X3_Y3[0]) or (Smernica_1 != None and C_1 == C_2)):
+        dlzka_1us = zrataj_dlzku_us(X1_Y1,X2_Y2)
+        dlzka_2us = zrataj_dlzku_us(X3_Y3,X4_Y4)
+        dlzka_medzi_max_min = max(zrataj_dlzku_us(X1_Y1,X3_Y3), zrataj_dlzku_us(X1_Y1,X4_Y4),
+                                  zrataj_dlzku_us(X2_Y2,X3_Y3), zrataj_dlzku_us(X2_Y2,X4_Y4))
+        if(dlzka_1us + dlzka_2us >= dlzka_medzi_max_min):
+            print("ANO")
+        else:
+            print("NE")
+    elif Smernica_1 != None and C_1 != C_2:
+            print("NE")
+else:
+    if(Smernica_1 == None or Smernica_2 == None):
+        if(Smernica_1 == None):
+            Prisecnik_X = X1_Y1[0]
+            Prisecnik_Y = Smernica_2 * Prisecnik_X + C_2
+        elif(Smernica_2 == None):
+            Prisecnik_X = X3_Y3[0]
+            Prisecnik_Y = Smernica_1 * Prisecnik_X + C_1
+    else:
+        menovatel_prisec = Smernica_1 - Smernica_2
+        Prisecnik_X = (C_2 - C_1) / menovatel_prisec
+        Prisecnik_Y = (Smernica_1 * C_2 - Smernica_2 * C_1) / menovatel_prisec
+    minX_1, maxX_1 = min(X1_Y1[0], X2_Y2[0]), max(X1_Y1[0], X2_Y2[0])
+    minX_2, maxX_2 = min(X3_Y3[0], X4_Y4[0]), max(X3_Y3[0], X4_Y4[0])
+    minY_1, maxY_1 = min(X1_Y1[1], X2_Y2[1]), max(X1_Y1[1], X2_Y2[1])
+    minY_2, maxY_2 = min(X3_Y3[1], X4_Y4[1]), max(X3_Y3[1], X4_Y4[1])
+    if((minX_1 <= Prisecnik_X <= maxX_1) and  (minX_2 <= Prisecnik_X  <= maxX_2) and
+      (minY_1 <= Prisecnik_Y <= maxY_1) and  (minY_2 <= Prisecnik_Y  <= maxY_2)):
+           print("ANO")
+    else:
+        print("NE")
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
