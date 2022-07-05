@@ -1,0 +1,61 @@
+class Prvek:
+    def __init__(self, x, dalsi):
+        self.x = x
+        self.dalsi = dalsi
+
+def VytiskniLSS( p ):
+    print( "LSS:", end=" " )
+    while p!=None:
+        print( p.x, end=" " )
+        p = p.dalsi
+    print(".")
+
+def NactiLSS():
+    prvni = None
+    posledni = None
+    r = input()
+    while r!="":
+        radek = r.split()
+        if len(radek)==0: 
+            break
+        for s in radek:
+            p = Prvek(int(s),None)
+            if prvni==None:
+                prvni = p
+            else:
+                posledni.dalsi = p
+            posledni = p
+        r = input()
+    return prvni
+
+
+def UnionDestruct(a,b):
+    zac, koniec = None, None
+    if(a != None and b != None):
+        if( a.x < b.x ):
+            zac, a = a, a.dalsi
+        elif( a.x > b.x ):
+            zac, b  = b, b.dalsi
+        else: 
+            zac, a, b = a, a.dalsi, b.dalsi
+        koniec = zac
+    elif( a== None and b!= None): return b
+    elif( b == None and a != None): return a
+    while a != None and b != None:
+        if( a.x < b.x ):
+            koniec.dalsi, a = a, a.dalsi
+        elif( a.x > b.x ):
+            koniec.dalsi, b = b, b.dalsi
+        else:
+            koniec.dalsi, a, b = a, a.dalsi, b.dalsi
+        koniec = koniec.dalsi
+    else:
+        if(zac != None and a != None ): koniec.dalsi = a
+        elif( zac != None and b != None): koniec.dalsi = b
+    return zac
+            
+
+        
+VytiskniLSS( UnionDestruct( NactiLSS(), NactiLSS() ) )
+
+
