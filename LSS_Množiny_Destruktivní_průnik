@@ -1,0 +1,62 @@
+class Prvek:
+    def __init__(self, x, dalsi):
+        self.x = x
+        self.dalsi = dalsi
+
+def VytiskniLSS( p ):
+    print( "LSS:", end=" " )
+    while p!=None:
+        print( p.x, end=" " )
+        p = p.dalsi
+    print(".")
+
+def NactiLSS():
+    prvni = None
+    posledni = None
+    r = input()
+    while r!="":
+        radek = r.split()
+        if len(radek)==0: 
+            break
+        for s in radek:
+            p = Prvek(int(s),None)
+            if prvni==None:
+                prvni = p
+            else:
+                posledni.dalsi = p
+            posledni = p
+        r = input()
+    return prvni
+
+
+def IntersectionDestruct(a,b):
+    min, max = a, b
+    seznam_inte_det = None
+    while min != None and max != None:
+        # pridávanie prvku do prieniku
+        if min.x == max.x:
+            # ak je seznam prázdny
+            if(seznam_inte_det == None):
+                # musim odpojiť ukazovatele v starom zozname a založit nove ukazovatele
+                seznam_inte_det = min
+                min, max = min.dalsi, max.dalsi
+                seznam_inte_det.dalsi = None
+            #inak pridaj na koniec
+            else:
+                current = seznam_inte_det
+                while(current.dalsi != None):
+                    current = current.dalsi
+                current.dalsi = min
+                min, max = min.dalsi, max.dalsi
+                current.dalsi.dalsi = None
+        # porovnávam jednotlivé prvky v seznamoch
+        elif(min.x > max.x): 
+            helper_min, helper_max = min, max
+            min, max = None, None
+            min, max = helper_max, helper_min
+        while min != None and max.x > min.x :
+            min = min.dalsi
+    return seznam_inte_det
+        
+VytiskniLSS( IntersectionDestruct( NactiLSS(), NactiLSS() ) )
+
