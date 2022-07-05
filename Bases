@@ -1,0 +1,25 @@
+
+def prevod_z_do_desiat(sustava, cislo):
+    cislo = str(cislo)
+    cislo_v10 = 0
+    for n in range(len(cislo)):
+        cislo_v10 = cislo_v10 * sustava + int(cislo[n])
+    return cislo_v10
+
+
+def prevod(sustava, cislo):
+    cislo_vsus = ""
+    while(cislo > 0):
+        cislo_vsus += str(cislo % sustava)
+        cislo //= sustava
+    cislo_vsus = cislo_vsus[::-1]
+    return cislo_vsus
+
+
+list_l = list(map(int,input().split(" ")))
+
+desitkova_prve, desiatkove_druhe = prevod_z_do_desiat(list_l[0],list_l[1]), prevod_z_do_desiat(list_l[2],list_l[3])
+sucet, rozdiel = prevod(list_l[4], (desitkova_prve + desiatkove_druhe)), prevod(list_l[4], desitkova_prve - desiatkove_druhe)
+sucin, podiel = prevod(list_l[4], (desitkova_prve * desiatkove_druhe)), prevod(list_l[4], desitkova_prve // desiatkove_druhe)
+
+print(f"{sucet}\n{rozdiel}\n{sucin}\n{podiel}\n")
