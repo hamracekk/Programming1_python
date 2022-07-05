@@ -1,0 +1,23 @@
+dict = {}
+dict_poctov = {}
+
+def vitaz(zbyva_kol,  zbyva):
+    if zbyva_kol == 1:
+        return 100000, str(zbyva)
+    else:
+        maximum = 0
+        max_str = ""
+        if (zbyva, zbyva_kol) not in dict_poctov:
+            for i in range(1, zbyva - zbyva_kol + 2):
+                 pomoc = int((i/zbyva)*100000)
+                 rekur = vitaz( zbyva_kol - 1, zbyva - i)
+                 zatial_suma, postupnost = rekur[0] + pomoc, str(i) + " " + rekur[1]
+                 if (maximum < zatial_suma): 
+                        maximum, max_str = zatial_suma, postupnost
+            dict_poctov[(zbyva, zbyva_kol)] = (maximum, max_str)
+        else:
+            (maximum, max_str) = dict_poctov[(zbyva,zbyva_kol)]
+        return maximum, max_str
+vysledok = vitaz(int(input()),100)
+print(str(vysledok[0]) + "\n" + vysledok[1])
+
