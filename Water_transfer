@@ -1,0 +1,60 @@
+
+class prelevani:
+
+    def __init__(self,list):
+        self.Max = (list[0], list[1], list[2], list[0])
+        self.vstupny_stav = [list[3], list[4], list[5]]
+        self.dict = {str([list[3],list[4],list[5]]):0}
+        self.best = {}
+
+    def generate_states(self,v):
+        pom = []
+        state = [v[0],v[1],v[2],v[0]]
+        for i in range(1,len(state)):
+            for n in [(i-1,i),(i,i-1)]:
+                pom_stav = state[:]
+                if(state[n[0]] > 0 and state[n[1]] < self.Max[n[1]]):
+                    if(state[n[1]] + state[n[0]] <= self.Max[n[1]]):
+                        pom_stav[n[0]] ,pom_stav[n[1]] = 0, state[n[1]] + state[n[0]]
+                    else:
+                        pom_stav[n[0]], pom_stav[n[1]] = state[n[0]] - (self.Max[n[1]]-state[n[1]]),self.Max[n[1]]
+                    if(pom_stav[0] != pom_stav[len(pom_stav)- 1] and i == 3):
+                        pom_stav[0] = pom_stav[len(pom_stav)-1]
+                    pom_stav = pom_stav[:-1]
+                    pom.append(pom_stav)
+        return pom
+
+    def DFS(self):
+        Fronta = [self.vstupny_stav]
+        hlbka, count = 0, 0
+        max_mozny_objem = min(sum(self.vstupny_stav),max(self.Max[0],self.Max[1],self.Max[2])) + 1
+
+        for x in self.vstupny_stav:
+            if x not in self.best: 
+                self.best[x] = 0 
+                count += 1
+
+        while len(Fronta)> 0 :
+            state_curr = Fronta.pop(0)
+            current_states = self.generate_states(state_curr)
+            for X in current_states:
+                if( str(X) not in self.dict):
+                    pomocna_hlbka = self.dict[str(state_curr)] + 1
+                    self.dict[str(X)] = pomocna_hlbka
+                    for y in X:
+                        if y not in self.best:
+                            self.best[y] = pomocna_hlbka
+                            count += 1
+                            if count == max_mozny_objem: return
+                    Fronta.append(X)
+    def main(self):
+        self.DFS()
+        for i in range(max(self.Max) + 1):
+            if i in self.best:
+                print(f"{i}:{self.best[i]}", end = " ")
+
+
+koniec = prelevani(list(map(int,input().split())))
+koniec.main()
+
+
